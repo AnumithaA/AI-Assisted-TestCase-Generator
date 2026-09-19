@@ -1,5 +1,3 @@
-# AI-Assisted-TestCase-Generator
-
 # AI-Assisted API Test Case Generator + Validator
 
 Generates API test cases from an OpenAPI spec using an LLM, executes them against
