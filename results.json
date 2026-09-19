@@ -1,0 +1,756 @@
+{
+  "results": [
+    {
+      "name": "Valid Pet Update",
+      "category": "success",
+      "request": {
+        "path_params": {},
+        "query_params": {},
+        "body": {
+          "id": 123,
+          "name": "Buddy",
+          "category": {
+            "id": 1,
+            "name": "Dog"
+          },
+          "photoUrls": [
+            "http://example.com/dog1.jpg"
+          ],
+          "tags": [
+            {
+              "id": 10,
+              "name": "friendly"
+            }
+          ],
+          "status": "available"
+        }
+      },
+      "expected_status": 200,
+      "method": "PUT",
+      "path": "/pet",
+      "executed": true,
+      "actual_status": 200,
+      "passed": true,
+      "note": null
+    },
+    {
+      "name": "Empty Strings and Empty Arrays Edge Case",
+      "category": "edge",
+      "request": {
+        "path_params": {},
+        "query_params": {},
+        "body": {
+          "id": 0,
+          "name": "",
+          "category": {
+            "id": 0,
+            "name": ""
+          },
+          "photoUrls": [],
+          "tags": [],
+          "status": "pending"
+        }
+      },
+      "expected_status": 200,
+      "method": "PUT",
+      "path": "/pet",
+      "executed": true,
+      "actual_status": 200,
+      "passed": true,
+      "note": null
+    },
+    {
+      "name": "Maximum Int64 Values Edge Case",
+      "category": "edge",
+      "request": {
+        "path_params": {},
+        "query_params": {},
+        "body": {
+          "id": 9223372036854775807,
+          "name": "A very long name with many characters to test limits, but still within reasonable length for a string",
+          "category": {
+            "id": 9223372036854775807,
+            "name": "Maximum category name test"
+          },
+          "photoUrls": [
+            "http://example.com/large.jpg"
+          ],
+          "tags": [
+            {
+              "id": 9223372036854775807,
+              "name": "Maximum tag name test"
+            }
+          ],
+          "status": "sold"
+        }
+      },
+      "expected_status": 200,
+      "method": "PUT",
+      "path": "/pet",
+      "executed": true,
+      "actual_status": 200,
+      "passed": true,
+      "note": null
+    },
+    {
+      "name": "Invalid Name Type",
+      "category": "failure",
+      "request": {
+        "path_params": {},
+        "query_params": {},
+        "body": {
+          "id": 123,
+          "name": 123,
+          "category": {
+            "id": 1,
+            "name": "Dog"
+          },
+          "photoUrls": [
+            "http://example.com/dog1.jpg"
+          ],
+          "tags": [
+            {
+              "id": 10,
+              "name": "friendly"
+            }
+          ],
+          "status": "available"
+        }
+      },
+      "expected_status": 400,
+      "method": "PUT",
+      "path": "/pet",
+      "executed": true,
+      "actual_status": 200,
+      "passed": false,
+      "note": null
+    },
+    {
+      "name": "Invalid Status Value",
+      "category": "failure",
+      "request": {
+        "path_params": {},
+        "query_params": {},
+        "body": {
+          "id": 123,
+          "name": "Buddy",
+          "category": {
+            "id": 1,
+            "name": "Dog"
+          },
+          "photoUrls": [
+            "http://example.com/dog1.jpg"
+          ],
+          "tags": [
+            {
+              "id": 10,
+              "name": "friendly"
+            }
+          ],
+          "status": "flying"
+        }
+      },
+      "expected_status": 422,
+      "method": "PUT",
+      "path": "/pet",
+      "executed": true,
+      "actual_status": 200,
+      "passed": false,
+      "note": null
+    },
+    {
+      "name": "Missing Required Field photoUrls",
+      "category": "failure",
+      "request": {
+        "path_params": {},
+        "query_params": {},
+        "body": {
+          "id": 123,
+          "name": "Buddy",
+          "category": {
+            "id": 1,
+            "name": "Dog"
+          },
+          "tags": [
+            {
+              "id": 10,
+              "name": "friendly"
+            }
+          ],
+          "status": "available"
+        }
+      },
+      "expected_status": 400,
+      "method": "PUT",
+      "path": "/pet",
+      "executed": true,
+      "actual_status": 200,
+      "passed": false,
+      "note": null
+    },
+    {
+      "name": "ValidPet",
+      "category": "success",
+      "request": {
+        "body": {
+          "id": 1,
+          "name": "Buddy",
+          "photoUrls": [
+            "http://example.com/photo1"
+          ],
+          "status": "available"
+        },
+        "path_params": {},
+        "query_params": {}
+      },
+      "expected_status": 200,
+      "method": "POST",
+      "path": "/pet",
+      "executed": true,
+      "actual_status": 200,
+      "passed": true,
+      "note": null
+    },
+    {
+      "name": "EmptyName",
+      "category": "edge",
+      "request": {
+        "body": {
+          "id": 2,
+          "name": "",
+          "photoUrls": [
+            "http://example.com/photo1"
+          ],
+          "status": "available"
+        },
+        "path_params": {},
+        "query_params": {}
+      },
+      "expected_status": 200,
+      "method": "POST",
+      "path": "/pet",
+      "executed": true,
+      "actual_status": 200,
+      "passed": true,
+      "note": null
+    },
+    {
+      "name": "EmptyPhotoUrls",
+      "category": "edge",
+      "request": {
+        "body": {
+          "id": 3,
+          "name": "Buddy",
+          "photoUrls": [],
+          "status": "available"
+        },
+        "path_params": {},
+        "query_params": {}
+      },
+      "expected_status": 200,
+      "method": "POST",
+      "path": "/pet",
+      "executed": true,
+      "actual_status": 200,
+      "passed": true,
+      "note": null
+    },
+    {
+      "name": "IdString",
+      "category": "failure",
+      "request": {
+        "body": {
+          "id": "abc",
+          "name": "Buddy",
+          "photoUrls": [
+            "http://example.com/photo1"
+          ],
+          "status": "available"
+        },
+        "path_params": {},
+        "query_params": {}
+      },
+      "expected_status": 400,
+      "method": "POST",
+      "path": "/pet",
+      "executed": true,
+      "actual_status": 200,
+      "passed": false,
+      "note": null
+    },
+    {
+      "name": "MissingName",
+      "category": "failure",
+      "request": {
+        "body": {
+          "id": 4,
+          "photoUrls": [
+            "http://example.com/photo1"
+          ],
+          "status": "available"
+        },
+        "path_params": {},
+        "query_params": {}
+      },
+      "expected_status": 400,
+      "method": "POST",
+      "path": "/pet",
+      "executed": true,
+      "actual_status": 200,
+      "passed": false,
+      "note": null
+    },
+    {
+      "name": "InvalidStatus",
+      "category": "failure",
+      "request": {
+        "body": {
+          "id": 5,
+          "name": "Buddy",
+          "photoUrls": [
+            "http://example.com/photo1"
+          ],
+          "status": "unknown"
+        },
+        "path_params": {},
+        "query_params": {}
+      },
+      "expected_status": 400,
+      "method": "POST",
+      "path": "/pet",
+      "executed": true,
+      "actual_status": 200,
+      "passed": false,
+      "note": null
+    },
+    {
+      "name": "ValidPetIdSmall",
+      "category": "success",
+      "request": {
+        "path_params": {
+          "petId": 1
+        },
+        "query_params": {},
+        "body": null
+      },
+      "expected_status": 200,
+      "method": "GET",
+      "path": "/pet/{petId}",
+      "executed": true,
+      "actual_status": 200,
+      "passed": true,
+      "note": null
+    },
+    {
+      "name": "ValidPetIdLarge",
+      "category": "success",
+      "request": {
+        "path_params": {
+          "petId": 1234567890
+        },
+        "query_params": {},
+        "body": null
+      },
+      "expected_status": 200,
+      "method": "GET",
+      "path": "/pet/{petId}",
+      "executed": true,
+      "actual_status": 200,
+      "passed": true,
+      "note": null
+    },
+    {
+      "name": "EdgePetIdZero",
+      "category": "edge",
+      "request": {
+        "path_params": {
+          "petId": 0
+        },
+        "query_params": {},
+        "body": null
+      },
+      "expected_status": 200,
+      "method": "GET",
+      "path": "/pet/{petId}",
+      "executed": true,
+      "actual_status": 200,
+      "passed": true,
+      "note": null
+    },
+    {
+      "name": "EdgePetIdMaxInt64",
+      "category": "edge",
+      "request": {
+        "path_params": {
+          "petId": 9223372036854775807
+        },
+        "query_params": {},
+        "body": null
+      },
+      "expected_status": 200,
+      "method": "GET",
+      "path": "/pet/{petId}",
+      "executed": true,
+      "actual_status": 200,
+      "passed": true,
+      "note": null
+    },
+    {
+      "name": "FailurePetIdString",
+      "category": "failure",
+      "request": {
+        "path_params": {
+          "petId": "abc"
+        },
+        "query_params": {},
+        "body": null
+      },
+      "expected_status": 400,
+      "method": "GET",
+      "path": "/pet/{petId}",
+      "executed": true,
+      "actual_status": 200,
+      "passed": false,
+      "note": null
+    },
+    {
+      "name": "FailurePetIdOverflow",
+      "category": "failure",
+      "request": {
+        "path_params": {
+          "petId": 9223372036854775808
+        },
+        "query_params": {},
+        "body": null
+      },
+      "expected_status": 400,
+      "method": "GET",
+      "path": "/pet/{petId}",
+      "executed": true,
+      "actual_status": 200,
+      "passed": false,
+      "note": null
+    },
+    {
+      "name": "DeletePet_Success_ValidID_1",
+      "category": "success",
+      "request": {
+        "body": null,
+        "path_params": {
+          "petId": 1
+        },
+        "query_params": {}
+      },
+      "expected_status": 200,
+      "method": "DELETE",
+      "path": "/pet/{petId}",
+      "executed": true,
+      "actual_status": 404,
+      "passed": false,
+      "note": null
+    },
+    {
+      "name": "DeletePet_Success_ValidID_Large",
+      "category": "success",
+      "request": {
+        "body": null,
+        "path_params": {
+          "petId": 123456789
+        },
+        "query_params": {}
+      },
+      "expected_status": 200,
+      "method": "DELETE",
+      "path": "/pet/{petId}",
+      "executed": true,
+      "actual_status": 404,
+      "passed": false,
+      "note": null
+    },
+    {
+      "name": "DeletePet_Edge_ZeroID",
+      "category": "edge",
+      "request": {
+        "body": null,
+        "path_params": {
+          "petId": 0
+        },
+        "query_params": {}
+      },
+      "expected_status": 200,
+      "method": "DELETE",
+      "path": "/pet/{petId}",
+      "executed": true,
+      "actual_status": 404,
+      "passed": false,
+      "note": null
+    },
+    {
+      "name": "DeletePet_Edge_MaxIntID",
+      "category": "edge",
+      "request": {
+        "body": null,
+        "path_params": {
+          "petId": 2147483647
+        },
+        "query_params": {}
+      },
+      "expected_status": 200,
+      "method": "DELETE",
+      "path": "/pet/{petId}",
+      "executed": true,
+      "actual_status": 404,
+      "passed": false,
+      "note": null
+    },
+    {
+      "name": "DeletePet_Failure_InvalidStringID",
+      "category": "failure",
+      "request": {
+        "body": null,
+        "path_params": {
+          "petId": "abc"
+        },
+        "query_params": {}
+      },
+      "expected_status": 400,
+      "method": "DELETE",
+      "path": "/pet/{petId}",
+      "executed": true,
+      "actual_status": 404,
+      "passed": false,
+      "note": null
+    },
+    {
+      "name": "Manual: nonexistent petId should 404",
+      "category": "failure",
+      "method": "GET",
+      "path": "/pet/{petId}",
+      "request": {
+        "path_params": {
+          "petId": 999999
+        },
+        "query_params": {},
+        "body": null
+      },
+      "expected_status": 404,
+      "executed": true,
+      "actual_status": 200,
+      "passed": false,
+      "note": null
+    },
+    {
+      "name": "Manual: missing required fields should 400",
+      "category": "failure",
+      "method": "POST",
+      "path": "/pet",
+      "request": {
+        "path_params": {},
+        "query_params": {},
+        "body": {}
+      },
+      "expected_status": 400,
+      "executed": true,
+      "actual_status": 415,
+      "passed": false,
+      "note": null
+    },
+    {
+      "name": "Manual: non-integer id should 400",
+      "category": "failure",
+      "method": "PUT",
+      "path": "/pet",
+      "request": {
+        "path_params": {},
+        "query_params": {},
+        "body": {
+          "id": "abc",
+          "name": "Test",
+          "photoUrls": []
+        }
+      },
+      "expected_status": 400,
+      "executed": true,
+      "actual_status": 200,
+      "passed": false,
+      "note": null
+    },
+    {
+      "name": "Manual: delete existing pet should 200",
+      "category": "success",
+      "method": "DELETE",
+      "path": "/pet/{petId}",
+      "request": {
+        "path_params": {
+          "petId": 1
+        },
+        "query_params": {},
+        "body": null
+      },
+      "expected_status": 200,
+      "executed": true,
+      "actual_status": 404,
+      "passed": false,
+      "note": null
+    }
+  ],
+  "score": {
+    "correctness": {
+      "total": 27,
+      "passed": 10,
+      "rate": 0.37
+    },
+    "bug_catch": {
+      "total_bugs": 4,
+      "caught": 4,
+      "rate": 1.0,
+      "caught_details": [
+        {
+          "id": "BUG-1",
+          "endpoint": "POST /pet",
+          "description": "Missing required-field validation (name, photoUrls)",
+          "correct_behavior": "Request missing 'name' or 'photoUrls' should return 400",
+          "actual_behavior": "Silently accepts and returns 200",
+          "caught_by": [
+            "MissingName"
+          ]
+        },
+        {
+          "id": "BUG-2",
+          "endpoint": "GET /pet/{petId}",
+          "description": "Wrong status code for nonexistent pet",
+          "correct_behavior": "Nonexistent petId should return 404",
+          "actual_behavior": "Returns 200 with a null body",
+          "caught_by": [
+            "Manual: nonexistent petId should 404"
+          ]
+        },
+        {
+          "id": "BUG-3",
+          "endpoint": "PUT /pet",
+          "description": "No type validation on 'id' field",
+          "correct_behavior": "Non-integer id should return 400",
+          "actual_behavior": "Returns 200 with no actual update performed",
+          "caught_by": [
+            "Manual: non-integer id should 400"
+          ]
+        },
+        {
+          "id": "BUG-4",
+          "endpoint": "DELETE /pet/{petId}",
+          "description": "Type mismatch \u2014 path param compared as string vs int keys",
+          "correct_behavior": "Deleting an existing petId should return 200",
+          "actual_behavior": "Returns 404 even for pets that exist",
+          "caught_by": [
+            "DeletePet_Success_ValidID_1",
+            "DeletePet_Success_ValidID_Large",
+            "DeletePet_Edge_ZeroID",
+            "DeletePet_Edge_MaxIntID",
+            "Manual: delete existing pet should 200"
+          ]
+        }
+      ],
+      "missed": []
+    },
+    "redundancy": [
+      {
+        "endpoint": "PUT /pet",
+        "category": "failure",
+        "test_a": "Invalid Name Type",
+        "test_b": "Invalid Status Value",
+        "similarity": 0.944
+      },
+      {
+        "endpoint": "PUT /pet",
+        "category": "failure",
+        "test_a": "Invalid Name Type",
+        "test_b": "Missing Required Field photoUrls",
+        "similarity": 0.871
+      },
+      {
+        "endpoint": "PUT /pet",
+        "category": "failure",
+        "test_a": "Invalid Status Value",
+        "test_b": "Missing Required Field photoUrls",
+        "similarity": 0.854
+      },
+      {
+        "endpoint": "POST /pet",
+        "category": "edge",
+        "test_a": "EmptyName",
+        "test_b": "EmptyPhotoUrls",
+        "similarity": 0.865
+      },
+      {
+        "endpoint": "POST /pet",
+        "category": "failure",
+        "test_a": "IdString",
+        "test_b": "MissingName",
+        "similarity": 0.915
+      },
+      {
+        "endpoint": "POST /pet",
+        "category": "failure",
+        "test_a": "IdString",
+        "test_b": "InvalidStatus",
+        "similarity": 0.923
+      },
+      {
+        "endpoint": "POST /pet",
+        "category": "failure",
+        "test_a": "MissingName",
+        "test_b": "InvalidStatus",
+        "similarity": 0.868
+      },
+      {
+        "endpoint": "GET /pet/{petId}",
+        "category": "success",
+        "test_a": "ValidPetIdSmall",
+        "test_b": "ValidPetIdLarge",
+        "similarity": 0.933
+      },
+      {
+        "endpoint": "GET /pet/{petId}",
+        "category": "edge",
+        "test_a": "EdgePetIdZero",
+        "test_b": "EdgePetIdMaxInt64",
+        "similarity": 0.875
+      },
+      {
+        "endpoint": "GET /pet/{petId}",
+        "category": "failure",
+        "test_a": "FailurePetIdString",
+        "test_b": "Manual: nonexistent petId should 404",
+        "similarity": 0.919
+      },
+      {
+        "endpoint": "DELETE /pet/{petId}",
+        "category": "success",
+        "test_a": "DeletePet_Success_ValidID_1",
+        "test_b": "DeletePet_Success_ValidID_Large",
+        "similarity": 0.94
+      },
+      {
+        "endpoint": "DELETE /pet/{petId}",
+        "category": "success",
+        "test_a": "DeletePet_Success_ValidID_1",
+        "test_b": "Manual: delete existing pet should 200",
+        "similarity": 1.0
+      },
+      {
+        "endpoint": "DELETE /pet/{petId}",
+        "category": "success",
+        "test_a": "DeletePet_Success_ValidID_Large",
+        "test_b": "Manual: delete existing pet should 200",
+        "similarity": 0.94
+      },
+      {
+        "endpoint": "DELETE /pet/{petId}",
+        "category": "edge",
+        "test_a": "DeletePet_Edge_ZeroID",
+        "test_b": "DeletePet_Edge_MaxIntID",
+        "similarity": 0.919
+      }
+    ]
+  }
+}

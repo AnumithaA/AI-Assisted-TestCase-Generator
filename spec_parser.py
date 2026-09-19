@@ -1,4 +1,3 @@
-# spec_parser.py
 import json
 import yaml
 from pathlib import Path
@@ -11,32 +10,57 @@ def load_spec(file_path: str) -> dict:
             return yaml.safe_load(f)
         return json.load(f)
 
+def resolve_refs(node, components: dict, _seen: set | None = None):
+    """
+    Recursively resolve $ref pointers against spec['components']['schemas'].
+    _seen tracks refs currently being resolved in this branch, to avoid
+    infinite recursion on circular schemas (replaced with a placeholder instead).
+    """
+    if _seen is None:
+        _seen = set()
+
+    if isinstance(node, dict):
+        if "$ref" in node:
+            ref_path = node["$ref"]  # e.g. "#/components/schemas/Pet"
+            schema_name = ref_path.split("/")[-1]
+
+            if schema_name in _seen:
+                return {"type": "object", "note": f"circular ref to {schema_name}"}
+
+            schema = components.get(schema_name)
+            if schema is None:
+                return {"type": "object", "note": f"unresolved ref {schema_name}"}
+
+            return resolve_refs(schema, components, _seen | {schema_name})
+
+        return {k: resolve_refs(v, components, _seen) for k, v in node.items()}
+
+    if isinstance(node, list):
+        return [resolve_refs(item, components, _seen) for item in node]
+
+    return node
 
 def normalize_endpoints(spec: dict) -> list[dict]:
-    """
-    Flatten an OpenAPI spec into a list of simple endpoint dicts:
-    {method, path, summary, parameters, request_body, responses}
-    """
+    components = spec.get("components", {}).get("schemas", {})
     endpoints = []
     paths = spec.get("paths", {})
 
     for path, methods in paths.items():
         for method, details in methods.items():
             if method.lower() not in ("get", "post", "put", "patch", "delete"):
-                continue  # skip non-HTTP keys like 'parameters' at path level
+                continue
 
             endpoint = {
                 "method": method.upper(),
                 "path": path,
                 "summary": details.get("summary", ""),
                 "parameters": _extract_parameters(details),
-                "request_body": _extract_request_body(details),
-                "responses": _extract_responses(details),
+                "request_body": resolve_refs(_extract_request_body(details), components),
+                "responses": resolve_refs(_extract_responses(details), components),
             }
             endpoints.append(endpoint)
 
     return endpoints
-
 
 def _extract_parameters(details: dict) -> list[dict]:
     params = []
